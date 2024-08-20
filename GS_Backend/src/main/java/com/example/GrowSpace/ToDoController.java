@@ -1,5 +1,6 @@
 package com.example.GrowSpace;
 
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("/todos")
 @CrossOrigin
 public class ToDoController {
@@ -25,9 +26,14 @@ public class ToDoController {
         return ResponseEntity.ok(toDoService.getAllToDos());
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/change/{id}")
     public ResponseEntity<ToDo> updateToDoStatus(@PathVariable Long id, @RequestParam Boolean status) {
         return ResponseEntity.ok(toDoService.updateToDoStatus(id, status));
     }
 
+    @GetMapping("/say")
+    public JSONPObject sayAllToDos() {
+        JSONPObject jsonPObject = new JSONPObject("say", toDoService.getAllToDos());
+        return jsonPObject;
+    }
 }
